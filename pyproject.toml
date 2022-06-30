@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "template"
+version = "0.1.0"
+description = ""
+authors = ["Ryogo"]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.10"
+numpy = "^1.22.0"
+opencv-python = "^4.5.5"
+Sphinx = {version = "^4.3.2", optional = true, extras = ["docs"]}
+pdf2image = "^1.16.0"
+matplotlib = "^3.5.1"
+poethepoet = "^0.12.0"
+torch = "^1.10.1"
+torchvision = "^0.11.2"
+scikit-image = "^0.19.1"
+scipy = "^1.8.0"
+svgwrite = "^1.4.1"
+CairoSVG = "^2.5.2"
+bezier = "^2021.2.12"
+Hydra = "^2.5"
+mlflow = "^1.26.1"
+torchmetrics = "0.6.0"
+hydra-core = "^1.2.0"
+
+[tool.poe.tasks]
+force-cuda11="poetry run python3 -m pip  install torch==1.10.1+cu111 torchvision==0.11.2+cu111 -f https://download.pytorch.org/whl/torch_stable.html"
+add-depend-torch="poetry run python3 -m pip install setuptools==59.5.0 timm pytorch-lightning==1.4.0 torchmetrics==0.6.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+tox = "^3.24.5"
+pre-commit = "^2.16.0"
+jupyterlab = "^3.2.6"
+pytest-cov = "^3.0.0"
+freezegun = "^1.1.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

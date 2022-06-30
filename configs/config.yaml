@@ -1,0 +1,58 @@
+
+# @package _global_
+
+# specify here default training configuration
+defaults:
+  - trainer: default
+  - optimizer: adam
+  - scheduler: cosine_annealing
+  - logger: mlflow
+
+
+  # enable color logging
+  #- override hydra/job_logging: colorlog
+  #- override hydra/hydra_logging: colorlog
+
+# global configurations
+experiment_name: experiment2
+data_dir: ${work_dir}/data
+output_dir: ${work_dir}/output
+model_dir: ${output_dir}/models
+gpus: 1
+lr: 1e-4
+min_lr: 1e-6
+weight_decay: 1e-6
+loss: "HeatmapLoss"
+
+epochs: 300
+batch_size: 64
+image_size: 256
+num_workers: 4
+seed: 1234
+patience: 10
+model_name: custom_unet
+
+# path to original working directory (that `run.py` was executed from in command line)
+# hydra hijacks working directory by changing it to the current log directory,
+# so it's useful to have path to original work dir as a special variable
+# read more here: https://hydra.cc/docs/next/tutorials/basic/running_your_app/working_directory
+work_dir: ${hydra:runtime.cwd}
+
+
+hydra:
+    # output paths for hydra logs
+    run:
+        dir: logs/runs/${now:%Y-%m-%d}/${now:%H:%M:%S}/${hydra.job.override_dirname}
+    sweep:
+        dir: logs/multiruns/${now:%Y-%m-%d}/${now:%H:%M:%S}/
+        subdir: ${hydra.job.override_dirname}
+
+    job:
+      # you can set here environment variables that are universal for all users
+      # for system specific variables (like data paths) it's better to use .env file!
+      # env_set:
+      config:
+        # configuration for the ${hydra.job.override_dirname} runtime variable
+        override_dirname:
+          kv_sep: '='
+          item_sep: '/'
